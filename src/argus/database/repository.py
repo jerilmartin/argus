@@ -167,14 +167,23 @@ class EventRepository:
         self,
         source: Optional[str] = None,
         event_type: Optional[str] = None,
+        source_ip: Optional[str] = None,
+        destination_ip: Optional[str] = None,
+        min_severity: Optional[int] = None,
     ) -> int:
-        """Count events with optional filters."""
+        """Count events using the same filters as :meth:`get_events`."""
         query = self.db.query(func.count(SecurityEvent.id))
 
         if source:
             query = query.filter(SecurityEvent.source == source)
         if event_type:
             query = query.filter(SecurityEvent.event_type == event_type)
+        if source_ip:
+            query = query.filter(SecurityEvent.source_ip == source_ip)
+        if destination_ip:
+            query = query.filter(SecurityEvent.destination_ip == destination_ip)
+        if min_severity is not None:
+            query = query.filter(SecurityEvent.severity >= min_severity)
 
         return query.scalar() or 0
 
@@ -191,6 +200,10 @@ def _serialize_raw_event(raw_event: dict | None) -> dict | None:
     def _convert(obj):
         if isinstance(obj, datetime):
             return obj.isoformat()
+        if isinstance(obj, dict):
+            return {key: _convert(value) for key, value in obj.items()}
+        if isinstance(obj, (list, tuple)):
+            return [_convert(value) for value in obj]
         return obj
 
-    return {k: _convert(v) for k, v in raw_event.items()}
+    return _convert(raw_event)

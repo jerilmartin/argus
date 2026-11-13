@@ -75,7 +75,13 @@ async def get_events(
         destination_ip=destination_ip,
         min_severity=min_severity,
     )
-    total = repo.count_events(source=source, event_type=event_type)
+    total = repo.count_events(
+        source=source,
+        event_type=event_type,
+        source_ip=source_ip,
+        destination_ip=destination_ip,
+        min_severity=min_severity,
+    )
 
     events = [_db_event_to_pydantic(e) for e in db_events]
     return ArgusEventListResponse(events=events, total=total)

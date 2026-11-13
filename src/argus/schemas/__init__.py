@@ -58,6 +58,8 @@ class ArgusEvent(BaseModel):
     )
     source_port: Optional[int] = Field(
         default=None,
+        ge=0,
+        le=65535,
         description="Originating port number",
     )
     destination_ip: Optional[str] = Field(
@@ -66,6 +68,8 @@ class ArgusEvent(BaseModel):
     )
     destination_port: Optional[int] = Field(
         default=None,
+        ge=0,
+        le=65535,
         description="Destination port number",
     )
     protocol: Optional[str] = Field(
@@ -82,14 +86,17 @@ class ArgusEvent(BaseModel):
     # --- Traffic Metrics ---
     duration: Optional[float] = Field(
         default=None,
+        ge=0,
         description="Connection duration in seconds",
     )
     source_bytes: Optional[int] = Field(
         default=None,
+        ge=0,
         description="Bytes sent by the source",
     )
     destination_bytes: Optional[int] = Field(
         default=None,
+        ge=0,
         description="Bytes sent by the destination",
     )
 
@@ -106,6 +113,8 @@ class ArgusEvent(BaseModel):
     )
     severity: Optional[int] = Field(
         default=None,
+        ge=0,
+        le=100,
         description="Severity / risk score 0-100 (null until ML is active)",
     )
 
