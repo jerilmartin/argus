@@ -1,0 +1,48 @@
+# ARGUS Docker Compose
+# NOTE: PostgreSQL is handled by Supabase (hosted).
+#       Splunk is already running as a separate container (argus-splunk).
+#       This compose file runs only the ARGUS API service.
+
+services:
+  # --- ARGUS API ---
+  argus-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: argus-api
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app/src
+    volumes:
+      - ./logs:/app/logs:ro       # Mount logs for ingestion
+      - ./pcaps:/app/pcaps:ro     # Mount pcaps for future use
+      - ./models:/app/models:ro   # Mount ML models (Phase 3)
+    restart: unless-stopped
+    networks:
+      - argus-network
+
+  # --- PostgreSQL (uncomment if you want local instead of Supabase) ---
+  # postgres:
+  #   image: postgres:16-alpine
+  #   container_name: argus-postgres
+  #   environment:
+  #     POSTGRES_DB: ${POSTGRES_DB:-argus}
+  #     POSTGRES_USER: ${POSTGRES_USER:-argus}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me}
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - argus_postgres_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+  #   networks:
+  #     - argus-network
+
+networks:
+  argus-network:
+    driver: bridge
+
+# volumes:
+#   argus_postgres_data:

@@ -1,0 +1,63 @@
+# ARGUS - AI-Driven Network Guard & Unified Security
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Test and tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker
+docker/postgres/data/
+
+# Models (keep placeholders, ignore local model artifacts)
+models/*
+!models/.gitkeep
+
+# Local datasets and database files
+data/*
+!data/.gitkeep
+
+# Logs (keep structure, ignore content)
+logs/zeek/*
+logs/suricata/*
+!logs/zeek/.gitkeep
+!logs/suricata/.gitkeep
+
+# Packet captures (keep placeholder, ignore local captures)
+pcaps/*
+!pcaps/.gitkeep
+
+# Byte-compiled
+*.pyc

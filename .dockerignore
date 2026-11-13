@@ -1,0 +1,25 @@
+# Local environment and credentials
+.env
+.venv/
+venv/
+env/
+
+# Version control and editor files
+.git/
+.vscode/
+.idea/
+
+# Python-generated files
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local data and runtime artifacts
+data/
+logs/
+models/
+pcaps/
+tests/
